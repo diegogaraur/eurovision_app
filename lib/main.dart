@@ -14,6 +14,7 @@ class AppState extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
+        ChangeNotifierProvider(create: (_) => RankingGlobalService()),
         ChangeNotifierProvider(create: (_) => NavigationBarProvider()),
       ],
       child: const MyApp(),
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
         'comprobar': (BuildContext context) => const ComprobarAuthPage(),
         'register': (BuildContext context) => const RegisterPage(),
         'login': (BuildContext context) => const LoginPage(),
-        'scoreboard': (BuildContext context) => const MainPage(),
+        'main': (BuildContext context) => const MainPage(),
       },
       scaffoldMessengerKey: NotificacionesService.messenserKey,
       theme: ThemeData.dark(useMaterial3: true),
