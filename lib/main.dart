@@ -1,6 +1,7 @@
 import 'package:allesc/pages/pages.dart';
 import 'package:allesc/providers/navigation_bar_provider.dart';
 import 'package:allesc/services/services.dart';
+import 'package:allesc/themes/esc_color_schemes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,7 +39,9 @@ class MyApp extends StatelessWidget {
         'main': (BuildContext context) => const MainPage(),
       },
       scaffoldMessengerKey: NotificacionesService.messenserKey,
-      theme: ThemeData.dark(useMaterial3: true),
+      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      themeMode: ThemeMode.system,
     );
   }
 }
