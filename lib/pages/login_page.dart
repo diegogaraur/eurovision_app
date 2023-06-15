@@ -117,7 +117,7 @@ class LoginFormState extends State<LoginForm> {
                         .iniciarSesion(loginForm.email, loginForm.password);
 
                     if (mensajeError == null) {
-                      Navigator.pushReplacementNamed(context, 'scoreboard');
+                      Navigator.pushReplacementNamed(context, 'main');
                     } else {
                       NotificacionesService.mostrarSnackbar(mensajeError);
                       loginForm.isLoading = false;
