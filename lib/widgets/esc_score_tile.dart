@@ -1,18 +1,15 @@
+import 'package:allesc/models/models.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 
 class ESCScoreTile extends StatelessWidget {
   final int indice;
-  final String iso;
-  final String pais;
-  final String puntuacion;
+  final RankingItem rankingItem;
 
   const ESCScoreTile({
     Key? key,
     required this.indice,
-    required this.iso,
-    required this.pais,
-    required this.puntuacion,
+    required this.rankingItem,
   }) : super(key: key);
 
   @override
@@ -28,7 +25,7 @@ class ESCScoreTile extends StatelessWidget {
             height: 32,
             width: 32,
             color: indice == 1
-                ? Colors.yellow[600]
+                ? Colors.yellow[400]
                 : Theme.of(context).colorScheme.tertiaryContainer,
             child: Center(
               child: Text(
@@ -51,10 +48,11 @@ class ESCScoreTile extends StatelessWidget {
                 const SizedBox(
                   width: 8,
                 ),
-                CountryFlag.fromCountryCode(iso, height: 24, width: 36),
+                CountryFlag.fromCountryCode(rankingItem.codPais ?? 'ES',
+                    height: 24, width: 36),
                 const SizedBox(width: 8),
                 Text(
-                  pais,
+                  rankingItem.cancion,
                   style: const TextStyle(fontSize: 16),
                 ),
               ]),
@@ -66,7 +64,7 @@ class ESCScoreTile extends StatelessWidget {
             child: Row(
               children: [
                 Text(
-                  puntuacion,
+                  rankingItem.puntos.toString(),
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 16),
                 ),
