@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final rankingItem = rankingItemFromJson(jsonString);
-
 import 'dart:convert';
 
 Map<String, RankingItem> rankingItemFromJson(String str) =>
@@ -15,6 +11,7 @@ class RankingItem {
   String cancion;
   String? codPais;
   int puntos;
+  int? votos;
 
   RankingItem({
     required this.cancion,

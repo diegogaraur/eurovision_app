@@ -2,11 +2,11 @@ import 'package:allesc/models/models.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 
-class ESCScoreTile extends StatelessWidget {
+class ESCResultadoTile extends StatelessWidget {
   final int indice;
   final RankingItem rankingItem;
 
-  const ESCScoreTile({
+  const ESCResultadoTile({
     Key? key,
     required this.indice,
     required this.rankingItem,
@@ -46,10 +46,10 @@ class ESCScoreTile extends StatelessWidget {
               height: 32,
               color: Theme.of(context).colorScheme.primaryContainer,
               child: Row(children: [
-                const SizedBox(width: 4),
+                const SizedBox(width: 8),
                 CountryFlag.fromCountryCode(rankingItem.codPais ?? 'ES',
                     height: 24, width: 36),
-                const SizedBox(width: 4),
+                const SizedBox(width: 8),
                 Text(
                   rankingItem.cancion,
                   style: const TextStyle(fontSize: 16),
@@ -57,28 +57,6 @@ class ESCScoreTile extends StatelessWidget {
               ]),
             ),
           ),
-          if (rankingItem.votos != null)
-            Container(
-              height: 32,
-              width: 32,
-              color: Theme.of(context).colorScheme.primary,
-              child: Center(
-                child: Text(
-                  '${rankingItem.votos}',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              ),
-            ),
-          if (rankingItem.votos != null)
-            Container(
-              height: 32,
-              width: 4,
-              color: Theme.of(context).colorScheme.primaryContainer,
-            ),
           Container(
             height: 32,
             color: Theme.of(context).colorScheme.primaryContainer,
@@ -95,19 +73,14 @@ class ESCScoreTile extends StatelessWidget {
               ],
             ),
           ),
+          Container(
+            height: 32,
+            color: Theme.of(context).colorScheme.primaryContainer,
+            child: const Icon(Icons.navigate_next_sharp),
+          ),
         ],
       ),
-      // trailing: Text(
-      //   puntuacion,
-      //   style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-      // ),
-      // Chip(
-      //   padding: EdgeInsets.zero,
-      //   label: Text(
-      //     puntuacion,
-      //     style: const TextStyle(fontWeight: FontWeight.bold),
-      //   ),
-      // ),
+      // trailing: const Icon(Icons.navigate_next_sharp),
     );
   }
 }

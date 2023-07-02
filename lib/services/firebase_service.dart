@@ -5,24 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
-class RankingGlobalService extends ChangeNotifier {
+class FirebaseService extends ChangeNotifier {
   final String _baseUrl = 'prueba-b058b.firebaseio.com';
-  final List<RankingItem> rankingGlobal = [];
+  final String evento = 'ESC2023';
+  List<RankingItem> rankingGlobal = [];
+  late Map<String, dynamic> resultadosESC;
   bool isLoading = true;
   final storage = const FlutterSecureStorage();
 
-  RankingGlobalService() {
-    cargarRankingGlobal();
+  FirebaseService() {
+    cargarRankingGlobal(evento);
+    obtenerResultados();
   }
 
-  Future cargarRankingGlobal() async {
+  Future cargarRankingGlobal(evento) async {
     isLoading = true;
     notifyListeners();
+
+    rankingGlobal = [];
 
     // Montamos la url del objeto y le añadimos el token de autenticación
     // final url = Uri.https(_baseUrl, 'r_global/ESC2023.json',
     //     {'auth': await storage.read(key: 'idToken') ?? ''});
-    final url = Uri.https(_baseUrl, 'r_global/ESC2023.json');
+    final url = Uri.https(_baseUrl, 'r_global/$evento.json');
 
     // Realizamos la petición
     final respuesta = await http.get(url);
@@ -36,7 +41,7 @@ class RankingGlobalService extends ChangeNotifier {
     //   return null;
     // }
 
-    print(rankingGlobalMap);
+    // print(rankingGlobalMap);
 
     // Pasamos de json a lista
     rankingGlobalMap.forEach((key, value) {
@@ -51,5 +56,12 @@ class RankingGlobalService extends ChangeNotifier {
     notifyListeners();
 
     return rankingGlobal;
+  }
+
+  Future obtenerResultados() async {
+    final url = Uri.https(_baseUrl, 'resultados.json');
+    final respuesta = await http.get(url);
+    resultadosESC = json.decode(respuesta.body);
+    print(resultadosESC);
   }
 }

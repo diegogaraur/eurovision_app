@@ -40,7 +40,7 @@ const darkColorScheme = ColorScheme(
   onPrimary: Color(0xFF003640),
   primaryContainer: Color(0xFF101C43),
   onPrimaryContainer: Color(0xFFACEDFF),
-  secondary: Color(0xFFB2CBD2),
+  secondary: Color(0xFFe4c520),
   onSecondary: Color(0xFF1D343A),
   secondaryContainer: Color(0xFF3F4565),
   onSecondaryContainer: Color(0xFFCEE7EF),
