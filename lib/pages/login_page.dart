@@ -1,5 +1,6 @@
 import 'package:allesc/providers/login_form_provider.dart';
 import 'package:allesc/services/services.dart';
+import 'package:allesc/services/usuario_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -107,6 +108,8 @@ class LoginFormState extends State<LoginForm> {
                     FocusScope.of(context).unfocus();
                     final authService =
                         Provider.of<AuthService>(context, listen: false);
+                    final usuarioService =
+                        Provider.of<UsuarioService>(context, listen: false);
 
                     // Lógica para procesar el inicio de sesión
                     if (!loginForm.isValidForm()) return;
@@ -117,6 +120,7 @@ class LoginFormState extends State<LoginForm> {
                         .iniciarSesion(loginForm.email, loginForm.password);
 
                     if (mensajeError == null) {
+                      usuarioService.iniciarUsuario(authService.idUsuario);
                       Navigator.pushReplacementNamed(context, 'main');
                     } else {
                       NotificacionesService.mostrarSnackbar(mensajeError);
