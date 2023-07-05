@@ -1,12 +1,12 @@
 class Pais {
-  String? codPais;
-  String? nombre;
+  String codPais;
+  String nombre;
 
   Pais(this.codPais, this.nombre);
 
   @override
   String toString() {
-    return "Votacion(codPais: $codPais, codPais: $nombre)";
+    return "Pais(codPais: $codPais, codPais: $nombre)";
   }
 
   @override

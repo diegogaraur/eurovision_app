@@ -11,9 +11,9 @@ class BanderaPais extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CountryFlag.fromCountryCode(pais.codPais!, height: 20, width: 24),
+        CountryFlag.fromCountryCode(pais.codPais, height: 20, width: 24),
         const SizedBox(width: 8),
-        Text(pais.nombre!)
+        Text(pais.nombre)
       ],
     );
   }

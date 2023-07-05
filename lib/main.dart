@@ -21,6 +21,7 @@ class AppState extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => UsuarioService()),
         ChangeNotifierProvider(create: (_) => FirebaseService()),
+        ChangeNotifierProvider(create: (_) => GraficosService()),
         ChangeNotifierProvider(create: (_) => NavigationBarProvider()),
         ChangeNotifierProvider(create: (_) => VotacionesProvider()),
         ChangeNotifierProvider(create: (_) => GraficosProvider()),
