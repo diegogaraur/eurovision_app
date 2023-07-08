@@ -1,5 +1,4 @@
 import 'package:allesc/models/models.dart';
-import 'package:allesc/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class ESCCardChart extends StatelessWidget {

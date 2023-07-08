@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:allesc/models/models.dart';
 import 'package:allesc/models/ranking_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,13 +10,13 @@ class FirebaseService extends ChangeNotifier {
   final String _baseUrl = 'prueba-b058b.firebaseio.com';
   final String evento = 'ESC2023';
   List<RankingItem> rankingGlobal = [];
-  late Map<String, dynamic> resultadosESC;
+  Map<String, dynamic>? datosGraficos;
   bool isLoading = true;
+  bool isLoadingGraficos = true;
   final storage = const FlutterSecureStorage();
 
   FirebaseService() {
     cargarRankingGlobal(evento);
-    obtenerResultados();
   }
 
   Future cargarRankingGlobal(evento) async {
@@ -56,12 +57,5 @@ class FirebaseService extends ChangeNotifier {
     notifyListeners();
 
     return rankingGlobal;
-  }
-
-  Future obtenerResultados() async {
-    final url = Uri.https(_baseUrl, 'resultados.json');
-    final respuesta = await http.get(url);
-    resultadosESC = json.decode(respuesta.body);
-    print(resultadosESC);
   }
 }
