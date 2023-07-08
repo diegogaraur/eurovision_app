@@ -39,14 +39,14 @@ class _GraficosPageState extends State<GraficosPage> {
           const Divider(height: 1),
           ESCCardChart(
             pais: paisSeleccionado,
-            titulo: 'Jurado vs Televoto (2016 - 2023)',
-            contenido: const BarChart2(),
+            titulo: 'Puestos (2013 - 2023)',
+            contenido: const LineChartPuestos(),
           ),
           const Divider(height: 0.5),
           ESCCardChart(
             pais: paisSeleccionado,
-            titulo: 'Puestos (2013 - 2023)',
-            contenido: const LineChartPuestos(),
+            titulo: 'Jurado vs Televoto (2016 - 2023)',
+            contenido: const BarChart2(),
           ),
           const Divider(height: 0.5),
           ESCCardChart(

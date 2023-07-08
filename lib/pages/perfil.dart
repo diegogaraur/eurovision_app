@@ -14,107 +14,123 @@ class ProfilePageState extends State<ProfilePage> {
     'profileImageURL':
         'https://vignette.wikia.nocookie.net/pkmnshuffle/images/c/c8/Turtwig.png/revision/latest?cb=20170409020509',
     'username': 'Diego',
-    'followers': 123,
-    'following': 45,
-    'posts': [
-      {
-        'id': 1,
-        'imageURL':
-            "https://live.staticflickr.com/4656/39811498731_c9a466e4f0_b.jpg",
-      },
-      {
-        'id': 2,
-        'imageURL':
-            "https://live.staticflickr.com/917/42438929015_560baa3385_b.jpg",
-      },
-      {
-        'id': 3,
-        'imageURL':
-            "https://live.staticflickr.com/919/42438772515_69a7df7a98_b.jpg",
-      },
-      {
-        'id': 4,
-        'imageURL':
-            "https://live.staticflickr.com/1802/42625549874_c2f43b6958_b.jpg",
-      },
-      {
-        'id': 5,
-        'imageURL':
-            "https://live.staticflickr.com/4718/38912808435_947e9139fc_b.jpg",
-      },
-      {
-        'id': 6,
-        'imageURL':
-            "https://live.staticflickr.com/916/42438716915_df05e9ea84_b.jpg",
-      },
-      {
-        'id': 7,
-        'imageURL':
-            "https://live.staticflickr.com/913/42438942375_bdc45a9229_b.jpg",
-      },
-      {
-        'id': 8,
-        'imageURL':
-            "https://live.staticflickr.com/1763/43293207732_78111fd46f_b.jpg",
-      },
-    ]
+    'followers': 0,
+    'following': 0,
+    'posts': []
   };
 
   Widget profileMetadataCount(String key, int value) {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text(value.toString(), style: Theme.of(context).textTheme.titleLarge),
+      Text(value.toString(), style: Theme.of(context).textTheme.titleSmall),
       Text(key, style: const TextStyle(fontSize: 12.0))
     ]);
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: [
-      SliverAppBar(
-          stretch: true,
-          expandedHeight: 250.0,
-          floating: false,
-          pinned: true,
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            stretchModes: const [
-              StretchMode.zoomBackground,
-              StretchMode.blurBackground,
-              StretchMode.fadeTitle,
-            ],
-            title: Text(
-              _profileData['username'],
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            centerTitle: true,
-            background: Stack(fit: StackFit.expand, children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Image.network(
-                  _profileData['backgroundImageURL'],
-                  fit: BoxFit.contain,
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 80.0),
-                alignment: Alignment.center,
-                child: CircleAvatar(
-                  radius: 30.0,
-                  backgroundColor:
-                      Theme.of(context).colorScheme.tertiaryContainer,
-                  backgroundImage:
-                      NetworkImage(_profileData['profileImageURL']),
-                ),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '@diegoga',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    height: 64,
+                    width: 64,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Diego García',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ],
               )
-            ]),
+            ],
           ),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.edit),
-              tooltip: 'Edit Profile',
-              onPressed: () {/* ... */},
-            ),
-          ]),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            children: const [
+              Center(child: Text('Biografia...')),
+            ],
+          ),
+        ),
+        const SizedBox(height: 16),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            profileMetadataCount('tops', _profileData['posts'].length),
+            profileMetadataCount('seguidores', _profileData['followers']),
+            profileMetadataCount('siguiendo', _profileData['following'])
+          ],
+        ),
+        const Divider(
+          height: 24,
+        )
+      ],
+    );
+
+    CustomScrollView(slivers: [
+      SliverAppBar(
+        stretch: true,
+        // expandedHeight: 250.0,
+        floating: false,
+        pinned: true,
+        flexibleSpace: FlexibleSpaceBar(
+          collapseMode: CollapseMode.pin,
+          stretchModes: const [
+            StretchMode.zoomBackground,
+            StretchMode.blurBackground,
+            StretchMode.fadeTitle,
+          ],
+          title: Text(
+            _profileData['username'],
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+          centerTitle: true,
+          // background: Stack(fit: StackFit.expand, children: [
+          //   Align(
+          //     alignment: Alignment.topLeft,
+          //     child: Image.network(
+          //       _profileData['backgroundImageURL'],
+          //       fit: BoxFit.contain,
+          //     ),
+          //   ),
+          //   Container(
+          //     padding: const EdgeInsets.only(top: 80.0),
+          //     alignment: Alignment.center,
+          //     child: CircleAvatar(
+          //       radius: 30.0,
+          //       backgroundColor:
+          //           Theme.of(context).colorScheme.tertiaryContainer,
+          //       backgroundImage:
+          //           NetworkImage(_profileData['profileImageURL']),
+          //     ),
+          //   )
+          // ]),
+        ),
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.edit),
+        //     tooltip: 'Edit Profile',
+        //     onPressed: () {/* ... */},
+        //   ),
+        // ],
+      ),
       SliverFixedExtentList(
         itemExtent: 50.0,
         delegate: SliverChildBuilderDelegate(
@@ -136,33 +152,33 @@ class ProfilePageState extends State<ProfilePage> {
         profileMetadataCount('seguidores', _profileData['followers']),
         profileMetadataCount('siguiendo', _profileData['following'])
       ]),
-      SliverGrid(
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 200.0,
-          mainAxisSpacing: 5.0,
-          crossAxisSpacing: 5.0,
-          childAspectRatio: 1.0,
-        ),
-        delegate: SliverChildBuilderDelegate(
-          (BuildContext context, int index) {
-            return GestureDetector(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  return PostDetail(_profileData['posts'][index]['imageURL']);
-                }));
-              },
-              child: Hero(
-                tag: _profileData['posts'][index]['imageURL'],
-                child: Image.network(
-                  _profileData['posts'][index]['imageURL'],
-                  fit: BoxFit.cover,
-                ),
-              ),
-            );
-          },
-          childCount: _profileData['posts'].length,
-        ),
-      ),
+      // SliverGrid(
+      //   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+      //     maxCrossAxisExtent: 200.0,
+      //     mainAxisSpacing: 5.0,
+      //     crossAxisSpacing: 5.0,
+      //     childAspectRatio: 1.0,
+      //   ),
+      //   delegate: SliverChildBuilderDelegate(
+      //     (BuildContext context, int index) {
+      //       return GestureDetector(
+      //         onTap: () {
+      //           Navigator.push(context, MaterialPageRoute(builder: (_) {
+      //             return PostDetail(_profileData['posts'][index]['imageURL']);
+      //           }));
+      //         },
+      //         child: Hero(
+      //           tag: _profileData['posts'][index]['imageURL'],
+      //           child: Image.network(
+      //             _profileData['posts'][index]['imageURL'],
+      //             fit: BoxFit.cover,
+      //           ),
+      //         ),
+      //       );
+      //     },
+      //     childCount: _profileData['posts'].length,
+      //   ),
+      // ),
     ]);
   }
 }
