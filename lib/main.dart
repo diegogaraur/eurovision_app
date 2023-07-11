@@ -2,7 +2,6 @@ import 'package:allesc/pages/pages.dart';
 import 'package:allesc/providers/navigation_bar_provider.dart';
 import 'package:allesc/providers/votaciones_provider.dart';
 import 'package:allesc/services/services.dart';
-import 'package:allesc/services/usuario_service.dart';
 import 'package:allesc/themes/esc_color_schemes.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +19,7 @@ class AppState extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthService()),
         ChangeNotifierProvider(create: (_) => UsuarioService()),
-        ChangeNotifierProvider(create: (_) => FirebaseService()),
+        ChangeNotifierProvider(create: (_) => ScoreboardService()),
         ChangeNotifierProvider(create: (_) => GraficosService()),
         ChangeNotifierProvider(create: (_) => NavigationBarProvider()),
         ChangeNotifierProvider(create: (_) => VotacionesProvider()),

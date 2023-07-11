@@ -1,12 +1,12 @@
 class CancionPais {
   String? cancion;
-  String? codPais;
+  String? pais;
 
-  CancionPais(this.cancion, this.codPais);
+  CancionPais(this.cancion, this.pais);
 
   @override
   String toString() {
-    return "Votacion(cancion: $cancion, codPais: $codPais)";
+    return "Votacion(cancion: $cancion, pais: $pais)";
   }
 
   @override
@@ -14,6 +14,6 @@ class CancionPais {
     if (identical(this, other)) return true;
     return other is CancionPais &&
         other.cancion == cancion &&
-        other.codPais == codPais;
+        other.pais == pais;
   }
 }

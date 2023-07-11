@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:allesc/models/models.dart';
+import 'package:allesc/widgets/esc_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -19,11 +20,11 @@ const Map<int, int> posicionPuntos = {
 
 class UsuarioService extends ChangeNotifier {
   final String _baseUrl = 'prueba-b058b.firebaseio.com';
-  final String evento = 'ESC2023';
   Usuario? usuario;
   String? idUsuario;
   bool isLoading = true;
-  late Map<String, int> votaciones = {};
+  // late Map<String, int> votaciones = {};
+  List votaciones = [];
 
   Future iniciarUsuario(idUsuario) async {
     // print(idUsuario);
@@ -37,25 +38,64 @@ class UsuarioService extends ChangeNotifier {
     return null;
   }
 
-  Future cargarVotaciones(evento) async {
-    // print('Inicio obtenerVotaciones');
+  // Future cargarVotaciones(evento) async {
+  //   // print('Inicio obtenerVotaciones');
+  //   final url =
+  //       Uri.https(_baseUrl, 'usuarios/$idUsuario/votaciones/$evento.json');
+  //   // print(url);
+
+  //   // Realizamos la petición
+  //   final respuesta = await http.get(url);
+  //   // print(respuesta.body);
+
+  //   final List<dynamic> votacionList = json.decode(respuesta.body);
+  //   // print(votacionList.asMap());
+
+  //   votacionList.asMap().forEach((indice, pais) {
+  //     int puntos = posicionPuntos[indice]!;
+
+  //     votaciones[pais] = puntos;
+  //   });
+  //   // print(votaciones);
+  //   // print('Fin obtenerVotaciones');
+  // }
+
+  Future obtenerVotacionesUsuario(anio) async {
+    print('Inicio obtenerVotacionesUsuario');
+    votaciones = [];
+
     final url =
-        Uri.https(_baseUrl, 'usuarios/$idUsuario/votaciones/$evento.json');
-    // print(url);
-
-    // Realizamos la petición
+        Uri.https(_baseUrl, 'usuarios/$idUsuario/votaciones/$anio/ALL.json');
     final respuesta = await http.get(url);
-    // print(respuesta.body);
+    final listaVotaciones = json.decode(respuesta.body);
 
-    final List<dynamic> votacionList = json.decode(respuesta.body);
-    // print(votacionList.asMap());
+    votaciones = listaVotaciones;
 
-    votacionList.asMap().forEach((indice, pais) {
-      int puntos = posicionPuntos[indice]!;
+    print('Fin obtenerVotacionesUsuario');
+    return votaciones;
+  }
 
-      votaciones[pais] = puntos;
-    });
-    // print(votaciones);
-    // print('Fin obtenerVotaciones');
+  Future guardarVotacionesUsuario(int anio, List votados) async {
+    print('Inicio guardarVotacionesUsuario');
+
+    bool vacio = true;
+    for (Map voto in votados) {
+      if (voto.isNotEmpty) {
+        vacio = false;
+        break;
+      }
+    }
+
+    if (vacio) {
+      votados = [];
+    }
+
+    final url =
+        Uri.https(_baseUrl, 'usuarios/$idUsuario/votaciones/$anio/ALL.json');
+    final respuesta = await http.put(url, body: json.encode(votados));
+    print(json.decode(respuesta.body));
+
+    print('Fin guardarVotacionesUsuario');
+    return null;
   }
 }

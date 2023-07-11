@@ -17,6 +17,7 @@ class RankingItem {
     required this.cancion,
     this.codPais,
     required this.puntos,
+    this.votos,
   });
 
   factory RankingItem.fromJson(Map<String, dynamic> json) => RankingItem(

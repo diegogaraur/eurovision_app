@@ -178,3 +178,29 @@ const Map<String, String> paisCodigo = {
   'Ukraine': 'UA',
   'United Kingdom': 'GB',
 };
+
+const Map<int, int> puntosIndice = {
+  12: 0,
+  10: 1,
+  8: 2,
+  7: 3,
+  6: 4,
+  5: 5,
+  4: 6,
+  3: 7,
+  2: 8,
+  1: 9
+};
+
+const Map<int, int> indicePuntos = {
+  0: 12,
+  1: 10,
+  2: 8,
+  3: 7,
+  4: 6,
+  5: 5,
+  6: 4,
+  7: 3,
+  8: 2,
+  9: 1,
+};

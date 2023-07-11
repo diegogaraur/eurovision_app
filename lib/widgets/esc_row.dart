@@ -1,9 +1,8 @@
-import 'package:allesc/providers/votaciones_provider.dart';
+import 'package:allesc/echarts_data.dart';
 import 'package:allesc/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class ESCRow extends StatelessWidget {
+class ESCRow extends StatefulWidget {
   final int indice;
 
   const ESCRow({
@@ -12,9 +11,12 @@ class ESCRow extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final votacionesProvider = Provider.of<VotacionesProvider>(context);
+  State<ESCRow> createState() => _ESCRowState();
+}
 
+class _ESCRowState extends State<ESCRow> {
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -24,7 +26,7 @@ class ESCRow extends StatelessWidget {
           color: Theme.of(context).colorScheme.primary,
           child: Center(
             child: Text(
-              '${votacionesProvider.votaciones[indice].puntos}',
+              '${indicePuntos[widget.indice]}',
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -33,11 +35,8 @@ class ESCRow extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(
-          height: 32,
-          width: 16,
-        ),
-        ESCDropDownButton(indice: indice),
+        const SizedBox(height: 32, width: 16),
+        ESCDropDownButton(indice: widget.indice),
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:allesc/echarts_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,59 +11,17 @@ import 'package:allesc/services/services.dart';
 // TODO: Falta añadir los tabs Global y Siguiendo en esta página
 // TODO: Esconder AppBar y BottomNavBar al scrolear
 
-const Map<int, int> puntosPosicion = {
-  12: 0,
-  10: 1,
-  8: 2,
-  7: 3,
-  6: 4,
-  5: 5,
-  4: 6,
-  3: 7,
-  2: 8,
-  1: 9
-};
-
-class ScoreboardView extends StatelessWidget {
+class ScoreboardView extends StatefulWidget {
   const ScoreboardView({super.key});
 
   @override
+  State<ScoreboardView> createState() => _ScoreboardViewState();
+}
+
+class _ScoreboardViewState extends State<ScoreboardView> {
+  @override
   Widget build(BuildContext context) {
-    const String evento = 'ESC2023';
-    final rankingGlobalService =
-        Provider.of<FirebaseService>(context, listen: true);
-    final usuarioService = Provider.of<UsuarioService>(context);
-    final votacionesProvider = Provider.of<VotacionesProvider>(context);
-
-    usuarioService.cargarVotaciones(evento);
-    Map<String, int>? votacionesUsuario = usuarioService.votaciones;
-    final List<RankingItem> rankingGlobal = rankingGlobalService.rankingGlobal;
-
-    List<CancionPais> listaTotal = [];
-    Map<int, CancionPais> listaVotaciones = {};
-    // Si hay votaciones del usuario, añadirlas al ranking global
-    for (RankingItem rankingItem in rankingGlobal) {
-      if (votacionesUsuario.isNotEmpty) {
-        if (votacionesUsuario[rankingItem.codPais] != null) {
-          rankingItem.votos = votacionesUsuario[rankingItem.codPais];
-          listaVotaciones[puntosPosicion[rankingItem.votos]!] =
-              CancionPais(rankingItem.cancion, rankingItem.codPais);
-        }
-      }
-
-      listaTotal.add(CancionPais(rankingItem.cancion, rankingItem.codPais));
-    }
-
-    // print('Lista total: $listaTotal');
-    // print('Lista votaciones: $listaVotaciones');
-    votacionesProvider.addListaTotal(listaTotal);
-    listaVotaciones.forEach((indice, votacion) {
-      votacionesProvider.addVotacion(indice, votacion);
-    });
-
-    if (rankingGlobalService.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    List votacionesUsuario = [];
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16),
@@ -89,13 +48,62 @@ class ScoreboardView extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: rankingGlobal.length,
-              itemBuilder: (BuildContext context, int index) => GestureDetector(
-                // onTap: () => Navigator.pushNamed(context, 'main'),
-                child: ESCScoreTile(
-                    indice: index + 1, rankingItem: rankingGlobal[index]),
-              ),
+            child: FutureBuilder(
+              future: Provider.of<ScoreboardService>(context, listen: false)
+                  .obtenerDatosScoreboard(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  List datosScoreboard = snapshot.data;
+                  List votacionesUsuario =
+                      Provider.of<UsuarioService>(context, listen: false)
+                          .votaciones;
+                  List<CancionPais> votables = [];
+                  votables.add(CancionPais(null, null));
+                  List votos = [];
+                  for (Map dato in datosScoreboard) {
+                    votables.add(CancionPais(dato['cancion'], dato['pais']));
+                    for (Map votacion in votacionesUsuario) {
+                      if (dato['pais'] == votacion['pais']) {
+                        votos.add(votacion['puntos']);
+                      }
+                    }
+                    votos.add(null);
+                  }
+                  // print(votacionesUsuario);
+                  // for (Map votacion in votacionesUsuario) {
+                  //   votables.remove(
+                  //       CancionPais(votacion['cancion'], votacion['pais']));
+                  // }
+
+                  // Ordenamos lista por ordern alfabeticp
+                  // votables.sort((a, b) => b.compareTo(a));
+
+                  Provider.of<VotacionesProvider>(context, listen: false)
+                      .setVotables(votables);
+
+                  if (datosScoreboard.isEmpty) {
+                    return const Center(child: Text('Sin canciones'));
+                  } else {
+                    return ListView.builder(
+                      itemCount: datosScoreboard.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          ESCScoreTile(
+                        indice: index + 1,
+                        rankingItem: RankingItem(
+                          cancion: datosScoreboard[index]['cancion'],
+                          codPais: paisCodigo[datosScoreboard[index]['pais']],
+                          puntos: datosScoreboard[index]['puntos'],
+                          // votos: votos[index],
+                        ),
+                      ),
+                    );
+                  }
+                }
+              },
             ),
           ),
         ],

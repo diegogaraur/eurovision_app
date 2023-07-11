@@ -1,66 +1,82 @@
+import 'package:allesc/echarts_data.dart';
 import 'package:allesc/models/models.dart';
 import 'package:flutter/material.dart';
 
 class VotacionesProvider extends ChangeNotifier {
-  List<Votacion> votaciones = [
-    Votacion(12, null),
-    Votacion(10, null),
-    Votacion(8, null),
-    Votacion(7, null),
-    Votacion(6, null),
-    Votacion(5, null),
-    Votacion(4, null),
-    Votacion(3, null),
-    Votacion(2, null),
-    Votacion(1, null),
+  // GlobalKey<FormState> votacionKey = GlobalKey<FormState>();
+  List keys = [
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>(),
+    GlobalKey<FormState>()
   ];
-  List<CancionPais> listaTotal = [];
-  List<List<CancionPais>> listasVotables = [
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-  ];
+  List votados = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+  List<List<CancionPais>> votables = [[], [], [], [], [], [], [], [], [], []];
 
-  addListaTotal(List<CancionPais> lista) {
-    // print('Inicio addListaTotal');
-    // Actualizmaos la lista completa de canciones
-    listaTotal = lista;
-
-    // Actualizamos las listas de canciones votables
-    for (List<CancionPais> listaVotable in listasVotables) {
-      listaVotable.clear();
-      listaVotable.addAll(listaTotal);
+  int getLenght() {
+    int contador = 0;
+    for (Map v in votados) {
+      if (v.isNotEmpty) {
+        contador++;
+      }
     }
 
-    eliminarCancionVotables();
-    // print('Fin addListaTotal');
+    return contador;
   }
 
-  eliminarCancionVotables() {
-    // Para cada votacion no nula, eliminar de las listas que no tenga la misma posicion la cancionPais
-    votaciones.asMap().forEach((indiceVotacion, votacion) {
-      if (votacion.cancionPais != null) {
-        listasVotables.asMap().forEach((indiceVotable, listaVotable) {
-          if (indiceVotacion != indiceVotable) {
-            listaVotable.clear();
-            listaVotable.addAll(listaTotal);
-            listaVotable.remove(votacion.cancionPais);
-          }
-        });
+  void setVotables(List<CancionPais> votablesScoreboard) {
+    for (int i = 0; i < votables.length; i++) {
+      votables[i] = List.of(votablesScoreboard);
+    }
+    // print(votables);
+  }
+
+  void inicializarCanciones(int indice, CancionPais? cancionPais) {
+    if (cancionPais != null) {
+      votados[indice] = {
+        'pais': cancionPais.pais,
+        'puntos': indicePuntos[indice],
+        'cancion': cancionPais.cancion,
+      };
+    }
+
+    for (int i = 0; i < votables.length; i++) {
+      if (i != indice) {
+        votables[i].remove(cancionPais);
       }
-    });
+    }
   }
 
-  addVotacion(int indice, CancionPais votacion) {
-    votaciones[indice].cancionPais = votacion;
-
-    eliminarCancionVotables();
+  void seleccionaCancion(int indice, CancionPais? cancionPais) {
+    // print('Inicio seleccionaCancion');
+    // print('$indice - $cancionPais');
+    if (cancionPais != null) {
+      votados[indice] = {
+        'pais': cancionPais.pais,
+        'puntos': indicePuntos[indice],
+        'cancion': cancionPais.cancion,
+      };
+      // print('${votados.length} - $votados');
+      // print(votables.length);
+      if (cancionPais.cancion != null) {
+        for (int i = 0; i < votables.length; i++) {
+          if (i != indice) {
+            // print(i);
+            // print(votables[i].contains(cancionPais));
+            votables[i].remove(cancionPais);
+            // print(votables[i]);
+          }
+        }
+      }
+    }
+    print(votados);
+    notifyListeners();
+    // print('Fin seleccionaCancion');
   }
 }
