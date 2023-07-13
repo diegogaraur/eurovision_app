@@ -14,17 +14,18 @@ class VotarPage extends StatefulWidget {
 }
 
 class _VotarPageState extends State<VotarPage> {
+  // int numVotados = 0;
   @override
   void initState() {
-    // print(Provider.of<VotacionesProvider>(context, listen: false).votados);
+    // numVotados =
+    //     Provider.of<VotacionesProvider>(context, listen: false).numVotados;
+
     super.initState();
   }
 
-  int numeroVotados() {
-    return Provider.of<VotacionesProvider>(context, listen: false)
-        .votados
-        .length;
-  }
+  // int numeroVotados() {
+  //   return Provider.of<VotacionesProvider>(context, listen: false).numVotados;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,6 @@ class _VotarPageState extends State<VotarPage> {
               return Text('Error: ${snapshot.error}');
             } else {
               List votacionesUsuarios = snapshot.data;
-              // print(votacionesUsuarios);
               final votacionesProvider =
                   Provider.of<VotacionesProvider>(context, listen: false);
 
@@ -62,7 +62,7 @@ class _VotarPageState extends State<VotarPage> {
                       children: [
                         Text('Eurovisión 2023',
                             style: Theme.of(context).textTheme.headlineSmall),
-                        Text('${votacionesProvider.getLenght()}/10')
+                        Text('${votacionesProvider.numVotados}/10')
                       ],
                     ),
                     const SizedBox(height: 16),

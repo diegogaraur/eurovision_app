@@ -3,7 +3,6 @@ import 'package:allesc/models/models.dart';
 import 'package:flutter/material.dart';
 
 class VotacionesProvider extends ChangeNotifier {
-  // GlobalKey<FormState> votacionKey = GlobalKey<FormState>();
   List keys = [
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
@@ -18,8 +17,9 @@ class VotacionesProvider extends ChangeNotifier {
   ];
   List votados = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
   List<List<CancionPais>> votables = [[], [], [], [], [], [], [], [], [], []];
+  int numVotados = 0;
 
-  int getLenght() {
+  void actualizarNumVotados() {
     int contador = 0;
     for (Map v in votados) {
       if (v.isNotEmpty) {
@@ -27,7 +27,7 @@ class VotacionesProvider extends ChangeNotifier {
       }
     }
 
-    return contador;
+    numVotados = contador;
   }
 
   void setVotables(List<CancionPais> votablesScoreboard) {
@@ -39,16 +39,18 @@ class VotacionesProvider extends ChangeNotifier {
 
   void inicializarCanciones(int indice, CancionPais? cancionPais) {
     if (cancionPais != null) {
-      votados[indice] = {
-        'pais': cancionPais.pais,
-        'puntos': indicePuntos[indice],
-        'cancion': cancionPais.cancion,
-      };
-    }
+      if (cancionPais.cancion != null) {
+        votados[indice] = {
+          'pais': cancionPais.pais,
+          'puntos': indicePuntos[indice],
+          'cancion': cancionPais.cancion,
+        };
 
-    for (int i = 0; i < votables.length; i++) {
-      if (i != indice) {
-        votables[i].remove(cancionPais);
+        for (int i = 0; i < votables.length; i++) {
+          if (i != indice) {
+            votables[i].remove(cancionPais);
+          }
+        }
       }
     }
   }
@@ -57,24 +59,25 @@ class VotacionesProvider extends ChangeNotifier {
     // print('Inicio seleccionaCancion');
     // print('$indice - $cancionPais');
     if (cancionPais != null) {
-      votados[indice] = {
-        'pais': cancionPais.pais,
-        'puntos': indicePuntos[indice],
-        'cancion': cancionPais.cancion,
-      };
       // print('${votados.length} - $votados');
       // print(votables.length);
       if (cancionPais.cancion != null) {
+        votados[indice] = {
+          'pais': cancionPais.pais,
+          'puntos': indicePuntos[indice],
+          'cancion': cancionPais.cancion,
+        };
+
         for (int i = 0; i < votables.length; i++) {
           if (i != indice) {
-            // print(i);
-            // print(votables[i].contains(cancionPais));
             votables[i].remove(cancionPais);
-            // print(votables[i]);
           }
         }
+      } else {
+        votados[indice] = {};
       }
     }
+    actualizarNumVotados();
     print(votados);
     notifyListeners();
     // print('Fin seleccionaCancion');

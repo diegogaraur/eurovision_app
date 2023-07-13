@@ -1,4 +1,4 @@
-import 'package:allesc/charts/charts.dart';
+import 'package:allesc/widgets/charts/charts.dart';
 import 'package:allesc/models/models.dart';
 import 'package:allesc/providers/graficos_provider.dart';
 import 'package:allesc/services/services.dart';

@@ -25,7 +25,8 @@ class _ESCDropDownButtonState extends State<ESCDropDownButton> {
     final votacionesProvider =
         Provider.of<VotacionesProvider>(context, listen: false);
     final votacion = votacionesProvider.votados[widget.indice];
-    if (votacionesProvider.votados[widget.indice] != {}) {
+    print(votacion);
+    if (votacion != {}) {
       print(votacion);
       dropdownValue = CancionPais(votacion['cancion'], votacion['pais']);
       if (dropdownValue != CancionPais(null, null)) {

@@ -81,8 +81,10 @@ class ESCScoreTile extends StatelessWidget {
             ),
           Container(
             height: 32,
+            width: 32 + 8,
             color: Theme.of(context).colorScheme.primaryContainer,
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
                   rankingItem.puntos.toString(),

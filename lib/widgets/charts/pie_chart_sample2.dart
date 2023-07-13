@@ -50,9 +50,10 @@ class PieChart2State extends State {
             ),
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Container(
@@ -61,7 +62,7 @@ class PieChart2State extends State {
                     width: 16,
                   ),
                   const SizedBox(width: 4),
-                  const Text('Top 10'),
+                  const Text('10 primeros'),
                 ],
               ),
               Row(
@@ -72,7 +73,7 @@ class PieChart2State extends State {
                     width: 16,
                   ),
                   const SizedBox(width: 4),
-                  const Text('Top 11-19'),
+                  const Text('Entre 11 y 20'),
                 ],
               ),
               Row(
@@ -83,7 +84,7 @@ class PieChart2State extends State {
                     width: 16,
                   ),
                   const SizedBox(width: 4),
-                  const Text('Bottom'),
+                  const Text('Debajo de 20'),
                 ],
               ),
               // Container(
@@ -128,8 +129,8 @@ class PieChart2State extends State {
         case 0:
           return PieChartSectionData(
             color: Colors.yellow[400],
-            value: 40,
-            title: '40%',
+            value: 21.05,
+            title: '21.05%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -141,8 +142,8 @@ class PieChart2State extends State {
         case 1:
           return PieChartSectionData(
             color: Theme.of(context).colorScheme.onPrimaryContainer,
-            value: 30,
-            title: '30%',
+            value: 21.05,
+            title: '21.05%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
@@ -154,8 +155,8 @@ class PieChart2State extends State {
         case 2:
           return PieChartSectionData(
             color: Colors.red[400],
-            value: 30,
-            title: '30%',
+            value: 57.89,
+            title: '57.89%',
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,

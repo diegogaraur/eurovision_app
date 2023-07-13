@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:allesc/models/models.dart';
-import 'package:allesc/widgets/esc_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,7 +22,6 @@ class UsuarioService extends ChangeNotifier {
   Usuario? usuario;
   String? idUsuario;
   bool isLoading = true;
-  // late Map<String, int> votaciones = {};
   List votaciones = [];
 
   Future iniciarUsuario(idUsuario) async {
@@ -62,14 +60,33 @@ class UsuarioService extends ChangeNotifier {
 
   Future obtenerVotacionesUsuario(anio) async {
     print('Inicio obtenerVotacionesUsuario');
-    votaciones = [];
+    votaciones = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
 
     final url =
         Uri.https(_baseUrl, 'usuarios/$idUsuario/votaciones/$anio/ALL.json');
     final respuesta = await http.get(url);
     final listaVotaciones = json.decode(respuesta.body);
 
-    votaciones = listaVotaciones;
+    print(listaVotaciones);
+    try {
+      listaVotaciones.forEach((k, v) {
+        votaciones[int.parse(k)] = v;
+      });
+    } catch (e) {
+      print(e);
+    }
+
+    print(votaciones);
+
+    if (listaVotaciones != null) {
+      for (int i = 0; i < listaVotaciones.length; i++) {
+        if (listaVotaciones[i] != null) {
+          votaciones[i] = listaVotaciones[i];
+        }
+      }
+    }
+
+    print(votaciones);
 
     print('Fin obtenerVotacionesUsuario');
     return votaciones;
@@ -77,6 +94,7 @@ class UsuarioService extends ChangeNotifier {
 
   Future guardarVotacionesUsuario(int anio, List votados) async {
     print('Inicio guardarVotacionesUsuario');
+    print(votados);
 
     bool vacio = true;
     for (Map voto in votados) {
@@ -87,12 +105,52 @@ class UsuarioService extends ChangeNotifier {
     }
 
     if (vacio) {
-      votados = [];
+      votados = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
     }
 
-    final url =
+    final urlVotacionesUsuario =
         Uri.https(_baseUrl, 'usuarios/$idUsuario/votaciones/$anio/ALL.json');
-    final respuesta = await http.put(url, body: json.encode(votados));
+
+    // final resVotacionPrevia = await http.get(urlVotacionesUsuario);
+    // var votacionPrevia = json.decode(resVotacionPrevia.body);
+    // votacionPrevia ??= [];
+    // print(votacionPrevia);
+    print(votaciones);
+
+    Map puntosGlobales = {};
+    for (Map voto in votados) {
+      if (voto['pais'] != null) {
+        puntosGlobales[voto['pais']] = voto['puntos'];
+      }
+    }
+    print(puntosGlobales);
+    for (Map voto in votaciones) {
+      if (voto['pais'] != null) {
+        if (puntosGlobales.containsKey(voto['pais'])) {
+          puntosGlobales[voto['pais']] -= voto['puntos'];
+        } else {
+          puntosGlobales[voto['pais']] = -voto['puntos'];
+        }
+      }
+    }
+    print(puntosGlobales.entries.toList());
+
+    final urlScoreboard = Uri.https(_baseUrl, 'scoreboard/$anio/ALL.json');
+    final respuestaScoreboard = await http.get(urlScoreboard);
+    Map puntosScoreboard = json.decode(respuestaScoreboard.body);
+    print(puntosScoreboard);
+
+    for (MapEntry puntuacion in puntosGlobales.entries.toList()) {
+      puntosScoreboard[puntuacion.key] += puntuacion.value;
+    }
+    print(puntosScoreboard);
+    // final resActScoreboard =
+    //     await http.put(urlScoreboard, body: json.encode(puntosScoreboard));
+
+    print(json.encode(votados));
+
+    final respuesta =
+        await http.put(urlVotacionesUsuario, body: json.encode(votados));
     print(json.decode(respuesta.body));
 
     print('Fin guardarVotacionesUsuario');

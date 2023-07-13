@@ -63,7 +63,7 @@ class _LineChartPuestosState extends State<LineChartPuestos> {
         } else {
           Map<String, dynamic> data = snapshot.data;
           if (data.isEmpty) {
-            return const Center();
+            return const Center(child: Text('Sin datos'));
           } else {
             return Chart(
               data: data[graficosProvider.paisSeleccionado.nombre]

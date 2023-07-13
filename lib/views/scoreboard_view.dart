@@ -61,17 +61,19 @@ class _ScoreboardViewState extends State<ScoreboardView> {
                   List votacionesUsuario =
                       Provider.of<UsuarioService>(context, listen: false)
                           .votaciones;
+
                   List<CancionPais> votables = [];
                   votables.add(CancionPais(null, null));
                   List votos = [];
                   for (Map dato in datosScoreboard) {
                     votables.add(CancionPais(dato['cancion'], dato['pais']));
+                    votos.add(null);
                     for (Map votacion in votacionesUsuario) {
                       if (dato['pais'] == votacion['pais']) {
+                        votos.removeLast();
                         votos.add(votacion['puntos']);
                       }
                     }
-                    votos.add(null);
                   }
                   // print(votacionesUsuario);
                   // for (Map votacion in votacionesUsuario) {

@@ -8,7 +8,6 @@ import 'package:http/http.dart' as http;
 class GraficosService extends ChangeNotifier {
   final String _baseUrl = 'prueba-b058b.firebaseio.com';
   Map<String, dynamic> datosGraficos = {};
-  // late List<Pais> listaPaisesGraficos = [Pais('', 'General')];
   late List<Pais> listaPaisesGraficos = [];
   bool isLoading = true;
 

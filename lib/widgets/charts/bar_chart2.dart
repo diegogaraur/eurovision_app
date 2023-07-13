@@ -14,13 +14,13 @@ class BarChart2 extends StatelessWidget {
       data: posiciones,
       variables: {
         'año': Variable(accessor: (Map map) => map['año'] as String),
-        'puesto': Variable(accessor: (Map map) => map['puesto'] as num)
+        'puesto': Variable(accessor: (Map map) => map['puesto'] as num),
       },
       marks: [
         IntervalMark(
           color: ColorEncode(value: color),
           size: SizeEncode(value: 25),
-        )
+        ),
       ],
       axes: [
         // Defaults.horizontalAxis,
